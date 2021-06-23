@@ -335,9 +335,10 @@ enum ExitStatus {
     Quit,
     Reboot,
     PowerOff,
+    Rerun,
 }
 
-pub fn run() -> Result<(), Error> {
+pub fn run() -> Result<bool, Error> {
     let mut inactive_since = Instant::now();
     let mut exit_status = ExitStatus::Quit;
 
@@ -1077,6 +1078,10 @@ pub fn run() -> Result<(), Error> {
                 exit_status = ExitStatus::Reboot;
                 break;
             },
+            Event::Select(EntryId::Rerun) => {
+                exit_status = ExitStatus::Rerun;
+                break;
+            },
             Event::MightSuspend if context.settings.auto_suspend > 0 => {
                 if context.shared || tasks.iter().any(|task| task.id == TaskId::PrepareSuspend ||
                                                              task.id == TaskId::Suspend) {
@@ -1127,8 +1132,11 @@ pub fn run() -> Result<(), Error> {
         ExitStatus::PowerOff => {
             File::create("/tmp/power_off").ok();
         },
+        ExitStatus::Rerun => {
+            return Ok(true);
+        }
         _ => (),
     }
 
-    Ok(())
+    Ok(false)
 }

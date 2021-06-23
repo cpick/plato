@@ -576,6 +576,7 @@ pub enum EntryId {
     Reboot,
     RebootInNickel,
     Quit,
+    Rerun,
 }
 
 impl EntryKind {

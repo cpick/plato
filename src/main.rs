@@ -22,8 +22,14 @@ mod app;
 
 use anyhow::Error;
 use crate::app::run;
+use std::os::unix::ffi::OsStringExt;
 
 fn main() -> Result<(), Error> {
-    run()?;
+    if run()? {
+        let args = std::env::args_os()
+            .map(|arg| std::ffi::CString::new(arg.into_vec()).unwrap(/* TODO */))
+            .collect::<Vec<_>>();
+        nix::unistd::execvp(args.first().unwrap(/* TODO */), &args).unwrap(/* TODO */);
+    }
     Ok(())
 }

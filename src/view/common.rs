@@ -108,7 +108,8 @@ pub fn toggle_main_menu(view: &mut dyn View, rect: Rectangle, enable: Option<boo
                                                   EntryId::TakeScreenshot),
                                EntryKind::Separator,
                                EntryKind::SubMenu("Applications".to_string(), apps),
-                               EntryKind::Separator];
+                               EntryKind::Separator,
+                               EntryKind::Command("Rerun Plato".to_string(), EntryId::Rerun)];
 
         if env::var_os("PLATO_STANDALONE").is_some() {
             entries.push(EntryKind::Command("Reboot in Nickel".to_string(), EntryId::RebootInNickel));
