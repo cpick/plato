@@ -7,7 +7,7 @@ method=${1:-"fast"}
 [ -e libs -a $# -eq 0 ] && method=skip
 
 case "$method" in
-	fast)
+	fast|fast-*)
 		./download.sh 'libs/*'
 		cd libs
 
@@ -61,6 +61,10 @@ case "$method" in
 		printf "Unknown build method: %s.\n" "$method" 1>&2
 		exit 1
 		;;
+esac
+
+case "$method" in
+	*-dlonly) exit ;;
 esac
 
 cd src/mupdf_wrapper

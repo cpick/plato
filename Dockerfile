@@ -36,12 +36,13 @@ RUN apt-get update && apt-get install -y pkg-config \
 
 RUN rustup target add arm-unknown-linux-gnueabihf
 
-# Build plato
 WORKDIR /plato
 
-ADD . /plato
+ADD Cargo.* build.sh download.sh /plato/
+ADD thirdparty/download.sh /plato/thirdparty/
+ADD thirdparty/mupdf /plato/thirdparty/mupdf/
+RUN ./build.sh fast-dlonly
 
-# Plato requires a specific version of the mupdf dev library for src/mupdf_wrapper
-RUN cd /plato/thirdparty && ./download.sh mupdf
+ADD . /plato
 
 CMD ["./build.sh"]
