@@ -1,0 +1,15 @@
+/*
+
+!/.cargo/config
+!/Cargo.*
+!/*.rs
+!/*.sh
+
+!/src
+/src/mupdf_wrapper/*
+!/src/mupdf_wrapper/*.c
+!/src/mupdf_wrapper/*.sh
+
+!/thirdparty
+/thirdparty/*/*
+!/thirdparty/*/*kobo*
